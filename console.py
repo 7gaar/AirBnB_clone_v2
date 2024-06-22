@@ -128,7 +128,7 @@ class HBNBCommand(cmd.Cmd):
                 key, value = pars.split('=')
                 if value.startswith('"') and value.endswith('"'):
                     value = value[1:-1]
-                    value = value.replace('\"', ' ')
+                    value = value.replace('\"', '')
                     value = value.replace("_", " ")
                 elif "." in value:
                     try:
@@ -142,10 +142,12 @@ class HBNBCommand(cmd.Cmd):
                         continue
                 new_dict[key] = value
         new_instance = HBNBCommand.classes[arg[0]]()
+        
+        for key, value in new_dict.items():
+            setattr(new_instance, key, value)        
         storage.save()
         print(new_instance.id)
         storage.save()
-
 
     def help_create(self):
         """ Help information for the create method """
