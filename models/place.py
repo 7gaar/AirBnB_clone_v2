@@ -5,7 +5,8 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, String, Integer, ForeignKey, Float, Table
 from sqlalchemy.orm import relationship
 from os import getenv
-from models import storage, Review
+import models
+from models.review import Review
 
 storage_type = getenv('HBNB_TYPE_STORAGE')
 
@@ -43,7 +44,7 @@ class Place(BaseModel, Base):
         def reviews(self):
             """Returns list of reviews.id"""
             revs = []
-            for rev in list(storage.all(Review).values):
+            for rev in list(models.storage.all(Review).values):
                 if rev.place_id == self.id:
                     revs.append(rev)
             return revs
